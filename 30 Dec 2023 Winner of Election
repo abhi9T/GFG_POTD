@@ -1,0 +1,35 @@
+#User function Template for python3
+
+class Solution:
+    
+    #Complete this function
+    
+    #Function to return the name of candidate that received maximum votes.
+    def winner(self,arr,n):
+        # Your code here
+        # return the name of the winning candidate and the votes he recieved
+        votes = {}
+        for name in arr:
+            votes[name] = votes.get(name, 0) + 1
+
+       # Find the candidate with the maximum votes and lexicographically smallest name
+        max_votes = max(votes.values())
+        winner = min(name for name, count in votes.items() if count == max_votes)
+
+        return [winner, str(max_votes)]
+
+
+#{ 
+ # Driver Code Starts
+#Initial Template for Python 3
+
+if __name__=="__main__":
+    T=int(input())
+    for _ in range(T):
+        
+        n=int(input())
+        arr=input().strip().split()
+        
+        result = Solution().winner(arr,n)
+        print(result[0],result[1])
+# } Driver Code Ends
