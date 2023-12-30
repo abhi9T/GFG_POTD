@@ -5,47 +5,28 @@ from typing import List
 class Solution:
     def isPossible(self, N : int, coins : List[int]) -> bool:
         # code here
-        """
-        Checks if Geek can earn sufficient coins for merchandise within N days.
+        total_coins = sum(coins)
+        dp = [[False] * (total_coins + 1) for _ in range(N + 1)]
 
-        Args:
-            N: Maximum days Geek can participate.
-            coins: List of coins earned for each POTD.
+        # Base case: If there are 0 days, Geek can achieve 0 coins.
+        for i in range(N + 1):
+            dp[i][0] = True
 
-        Returns:
-            True if Geek can get eligible, False otherwise.
-        """
-
-        # Create two DP tables:
-        # - div20: Stores if a sum divisible by 20 can be achieved with N days and i coins.
-        # - div24: Stores if a sum divisible by 24 can be achieved with N days and i coins.
-        # - maxSum: Stores the maximum achievable sum with N days and i coins.
-
-        div20 = [[False] * (sum(coins) + 1) for _ in range(N + 1)]
-        div24 = [[False] * (sum(coins) + 1) for _ in range(N + 1)]
-        maxSum = [[0] * (sum(coins) + 1) for _ in range(N + 1)]
-
-        # Base case: 0 coins on Day 0.
-        div20[0][0] = True
-        div24[0][0] = True
-
-        # Build DP tables from Day 1 to N and coin 1 to sum(coins).
         for i in range(1, N + 1):
-            for j in range(1, sum(coins) + 1):
-                # Consider not including the current coin.
-                maxSum[i][j] = maxSum[i - 1][j]
-                div20[i][j] = div20[i - 1][j]
-                div24[i][j] = div24[i - 1][j]
+            for j in range(1, total_coins + 1):
+                # If the current day's coins are greater than the target, don't include it.
+                if coins[i - 1] > j:
+                    dp[i][j] = dp[i - 1][j]
+                else:
+                    # Either include or exclude the current day's coins.
+                    dp[i][j] = dp[i - 1][j] or dp[i - 1][j - coins[i - 1]]
 
-                # Include the current coin if feasible.
-                if j >= coins[i - 1]:
-                    maxSum[i][j] = max(maxSum[i][j], maxSum[i - 1][j - coins[i - 1]] + coins[i - 1])
-                    div20[i][j] = div20[i][j] or div20[i - 1][j - coins[i - 1]]
-                    div24[i][j] = div24[i][j] or div24[i - 1][j - coins[i - 1]]
+        # Check if there exists a subset of coins such that its sum is divisible by 20, 24, or equal to 2024.
+        for i in range(1, total_coins + 1):
+            if dp[N][i] and (i % 20 == 0 or i % 24 == 0 or i == 2024):
+                return True
 
-        # Check if any achievable sum is divisible by 20 or 24.
-        return any(div20[-1]) or any(div24[-1]) or maxSum[-1][2024] == 2024
-        
+        return False
 
 
 
