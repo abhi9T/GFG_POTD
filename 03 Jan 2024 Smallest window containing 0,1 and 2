@@ -1,0 +1,52 @@
+#User function Template for python3
+
+class Solution:
+    def smallestSubstring(self, S):
+        # Code here
+        # Initialize a frequency dictionary to track characters in the current window
+        freq = {'0': 0, '1': 0, '2': 0}
+
+        required_chars = set("012")  # Characters needed in the substring
+        min_length = float('inf')  # Initialize minimum length
+        window_start = 0  # Starting index of current window
+        char_counts = {}  # Count characters within the window
+        unique_chars_found = 0  # Count unique characters found
+
+        for window_end in range(len(S)):
+            char = S[window_end]
+            if char in required_chars:
+                char_counts[char] = char_counts.get(char, 0) + 1
+                if char_counts[char] == 1:  # New unique character found
+                    unique_chars_found += 1
+
+            while unique_chars_found == len(required_chars):
+                current_length = window_end - window_start + 1
+                min_length = min(min_length, current_length)
+
+                left_char = S[window_start]
+                if left_char in required_chars:
+                    char_counts[left_char] -= 1
+                    if char_counts[left_char] == 0:  # Unique character no longer in window
+                        unique_chars_found -= 1
+
+                window_start += 1  # Shrink the window from the left
+
+        return min_length if min_length != float('inf') else -1
+        
+
+#{ 
+ # Driver Code Starts
+#Initial Template for Python 3
+
+if __name__ == '__main__':
+	t=int(input())
+	for i in range(t):
+		S = input()
+		ob = Solution()
+		ans = ob.smallestSubstring(S)
+		
+		print(ans)
+
+
+
+# } Driver Code Ends
