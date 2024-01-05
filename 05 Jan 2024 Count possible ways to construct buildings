@@ -1,0 +1,35 @@
+#User function Template for python3
+
+class Solution:
+	def TotalWays(self, N):
+		# Code here
+        # Base cases:
+       if N == 0:
+           return 1  # No plots, only empty arrangement possible
+       if N == 1:
+           return 4  # 4 possible arrangements for 1 plot (explained in example 1)
+
+       # Calculate for one side using dynamic programming:
+       dp = [0] * (N + 1)
+       dp[1] = 2  # Building or empty space for first plot
+       dp[2] = 3  # Building on first, second, or none
+
+       for i in range(3, N + 1):
+           dp[i] = (dp[i - 1] + dp[i - 2]) % 1000000007  # Recursion relation
+
+       # Square the result for both sides and return:
+       return (dp[N] * dp[N]) % 1000000007
+
+#{ 
+ # Driver Code Starts
+#Initial Template for Python 3
+
+
+if __name__ == '__main__':
+	T=int(input())
+	for i in range(T):
+		N = int(input())
+		ob = Solution()
+		ans = ob.TotalWays(N)
+		print(ans)
+# } Driver Code Ends
