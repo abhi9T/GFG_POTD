@@ -1,0 +1,44 @@
+#User function Template for python3
+
+class Solution:
+    def splitArray(self, arr, N, K):
+        # code here 
+        # Find the minimum and maximum possible subarray sums
+        total_sum = sum(arr)
+        max_element = max(arr)
+        min_possible_sum = max(max_element, total_sum // K)  # Handle cases where K > N
+        max_possible_sum = total_sum
+
+        # Perform binary search to find the minimum achievable maximum subarray sum
+        while min_possible_sum < max_possible_sum:
+            mid = (min_possible_sum + max_possible_sum) // 2
+
+            # Check if it's possible to split the array into K subarrays with a maximum sum of mid
+            current_sum = 0
+            subarrays = 1
+            for num in arr:
+                current_sum += num
+                if current_sum > mid:
+                    subarrays += 1
+                    current_sum = num
+
+            if subarrays > K:  # Need more subarrays, increase the minimum possible sum
+                min_possible_sum = mid + 1
+            else:  # Found a possible solution, explore lower sums
+                max_possible_sum = mid
+
+        return min_possible_sum
+
+#{ 
+ # Driver Code Starts
+#Initial Template for Python 3
+
+if __name__ == '__main__': 
+    t = int (input ())
+    for _ in range (t):
+        N,K=map(int,input().split())
+        arr=list(map(int,input().split()))
+        
+        ob = Solution()
+        print(ob.splitArray(arr,N,K))
+# } Driver Code Ends
