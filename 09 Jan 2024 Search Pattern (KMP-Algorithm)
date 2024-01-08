@@ -1,0 +1,35 @@
+#User function Template for python3
+
+class Solution:
+    def search(self, pat, txt):
+        # code here
+        indices = []
+        len_pat = len(pat)
+        len_txt = len(txt)
+        
+        # Iterate through the text string
+        for i in range(len_txt - len_pat + 1):
+            # Check if the substring matches the pattern
+            if txt[i:i+len_pat] == pat:
+                indices.append(i+1)  # Adjust to one-based indexing
+        
+        return indices
+
+
+#{ 
+ # Driver Code Starts
+#Initial Template for Python 3
+
+if __name__ == '__main__':
+    t = int(input())
+    for _ in range(t):
+        s = input().strip()
+        patt = input().strip()
+        ob = Solution()
+        ans = ob.search(patt, s)
+        if len(ans)==0:
+            print(-1,end="")
+        for value in ans:
+            print(value,end = ' ')
+        print()
+# } Driver Code Ends
