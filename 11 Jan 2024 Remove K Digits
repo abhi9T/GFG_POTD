@@ -1,0 +1,46 @@
+#User function Template for python3
+
+class Solution:
+
+    def removeKdigits(self, S, K):
+        # code here
+        stack = []
+        removed_digits = 0
+        
+        for digit in S:
+            while K > 0 and stack and stack[-1] > digit:
+                stack.pop()
+                K -= 1
+            stack.append(digit)
+        
+        # Remove remaining K digits from the end if needed
+        while K > 0:
+            stack.pop()
+            K -= 1
+        
+        # Construct the result string
+        result = ''.join(stack).lstrip('0')
+        
+        # If the result is empty, return '0'
+        return result if result else '0'
+
+#{ 
+ # Driver Code Starts
+#Initial Template for Python 3
+
+if __name__ == '__main__':
+
+    t = int(input())
+
+    for _ in range(t):
+        S = input()
+        K = int(input())
+
+        obj = Solution()
+
+        ans = obj.removeKdigits(S, K)
+
+        print(ans)
+
+
+# } Driver Code Ends
