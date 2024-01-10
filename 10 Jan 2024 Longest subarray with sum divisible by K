@@ -1,0 +1,50 @@
+#User function Template for python3
+class Solution:
+	def longSubarrWthSumDivByK (self,arr,  n, K) : 
+		#Complete the function
+        """
+        Finds the length of the longest subarray with sum divisible by K.
+
+        Args:
+            arr: The input array of integers.
+            n: The size of the array.
+            K: The divisor to check for.
+
+        Returns:
+            The length of the longest subarray with sum divisible by K.
+        """
+
+        prefix_sum = 0
+        max_len = 0
+        remainder_map = {0: -1}  # Map remainders to their first occurrence indices
+
+        for i in range(n):
+            prefix_sum += arr[i]
+            remainder = prefix_sum % K
+
+            if remainder in remainder_map:
+                max_len = max(max_len, i - remainder_map[remainder])
+            else:
+                remainder_map[remainder] = i
+
+        return max_len
+
+
+
+#{ 
+ # Driver Code Starts
+#Initial Template for Python 3
+
+if __name__ == '__main__':
+
+	for _ in range(0,int(input())):
+		n, K = map(int ,input().split())
+		arr = list(map(int,input().strip().split()))
+		ob = Solution()
+		res = ob.longSubarrWthSumDivByK(arr, n, K)
+		print(res)
+
+
+
+
+# } Driver Code Ends
