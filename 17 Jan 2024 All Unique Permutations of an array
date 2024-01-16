@@ -1,0 +1,48 @@
+#User function Template for python3
+
+class Solution:
+    def uniquePerms(self, arr, n):
+        # code here 
+        result = []
+        visited = [False] * n
+
+        def backtrack(current_perm):
+            if len(current_perm) == n:
+                result.append(list(current_perm))  # Append a copy to avoid modification
+                return
+
+            for i in range(n):
+                if visited[i]:
+                    continue
+
+                # Handle duplicates: Avoid creating permutations that are already lexicographically greater
+                if i > 0 and arr[i] == arr[i - 1] and not visited[i - 1]:
+                    continue
+
+                visited[i] = True
+                current_perm.append(arr[i])
+                backtrack(current_perm)
+                current_perm.pop()
+                visited[i] = False
+
+        arr.sort()  # Sort the array for lexicographic ordering
+        backtrack([])
+        return sorted(result)  # Sort the result list for final ordering
+
+#{ 
+ # Driver Code Starts
+#Initial Template for Python 3
+
+if __name__ == '__main__': 
+    t = int (input ())
+    for _ in range (t):
+        n=int(input())
+        arr=list(map(int,input().split()))
+        
+        ob = Solution()
+        res = ob.uniquePerms(arr,n)
+        for i in range(len(res)):
+            for j in range(n):
+                print(res[i][j],end=" ")
+            print()
+# } Driver Code Ends
