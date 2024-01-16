@@ -1,0 +1,34 @@
+#User function Template for python3
+
+class Solution:
+    def numberSequence(self, m, n):
+        # code here
+        """
+        Calculates the number of special sequences possible with given constraints.
+        """
+
+        if n == 0:  # Base case: 1 way to form a sequence of length 0
+            return 1
+
+        if 2 * m < n:  # Constraint: seqi+1 >= 2*seqi
+            return 0
+
+        return (
+            self.numberSequence(m // 2, n - 1)  # Number of sequences including m/2
+            + self.numberSequence(m - 1, n)  # Number of sequences not including m/2
+        )
+
+#{ 
+ # Driver Code Starts
+#Initial Template for Python 3
+
+if __name__ == '__main__':
+    t = int(input())
+    for _ in range (t):
+        arr = input().split()
+        m = int(arr[0])
+        n = int(arr[1])
+        
+        ob = Solution()
+        print(ob.numberSequence(m, n))
+# } Driver Code Ends
